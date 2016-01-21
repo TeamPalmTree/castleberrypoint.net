@@ -1,0 +1,23 @@
+<template name="documents">
+    <div class="section">
+        <div class="header">
+            <h1 class="title"><span class="text">Documents</span></h1>
+            <form class="js-todo-new todo-new input-symbol">
+                <input type="text" placeholder="Type to search for a document">
+                <i class="fa fa-search"></i>
+            </form>
+        </div>
+        <div class="scrollable list-items">
+            {{#each documents}}
+                <div class="document">
+                    <div class="title">
+                        <span><i class="fa fa-file-text"></i>&nbsp;&nbsp;{{title}}</span>
+                    </div>
+                    <div class="metadata">
+                        <i>Last Modified: 10-1-2015 2:00AM</i>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</template>

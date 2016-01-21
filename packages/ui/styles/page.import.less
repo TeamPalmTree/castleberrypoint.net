@@ -1,0 +1,46 @@
+#page {
+  .position(absolute, 0, 0, 0, 0);
+  overflow: hidden;
+
+  @media screen and (min-width: 60em) {
+    left: @column;
+    right: @column;
+  }
+
+  @media screen and (min-width: 80em) {
+    left: 2*@column;
+    right: 2*@column;
+  }
+
+  @media screen and (min-width: 40em) {
+    overflow: visible;
+  }
+
+}
+
+#menu-toggle {
+  .position(fixed);
+  .transition(all 200ms ease-out);
+  opacity: 1;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3rem;
+  line-height: 3rem;
+  font-size: 20px;
+  text-align: center;
+  z-index: 15;
+
+  a {
+    color: @color-light;
+  }
+
+  @media screen and (min-width: 40em) {
+    opacity: 0;
+  }
+
+  .menu-open & {
+    opacity: 0;
+  }
+
+}

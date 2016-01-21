@@ -1,0 +1,38 @@
+<template name="user">
+    <div class="section auth">
+        <div class="scrollable">
+            <div class="wrapper-auth">
+
+                <h1 class="title-auth">Hello, {{firstName}}</h1>
+
+                <p class="subtitle-auth">Modify your profile</p>
+
+                <form>
+
+                    {{#if errors}}
+                        <div class="errors-list">
+                            {{#each errors}}
+                                <div class="error">{{this}}</div>
+                            {{/each}}
+                        </div>
+                    {{/if}}
+
+                    {{#each fields}}
+                        {{#if isFieldFile}}
+                            {{>snap}}
+                        {{else}}
+                            <div class="input-symbol dark lined {{errorClass name}}">
+                                <span class="fa fa-{{icon}}"></span>
+                                <input name="{{name}}" type="{{fieldType}}" placeholder="{{placeholder}}" value="{{fieldValue}}">
+                            </div>
+                        {{/if}}
+                    {{/each}}
+
+                    <button type="submit" class="btn-primary">Save changes</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,22 @@
+<template name="newPost">
+    <div id="new-post" class="post" style="display: none;">
+        <div class="main new {{administratorClass}}">
+            <div class="info">
+                <img class="image" src="{{authorImage}}" />
+                <div class="text">
+                    <div class="title">
+                        <input name="title" type="text" placeholder="Post title" />
+                    </div>
+                    <div class="subtitle">
+                       @{{username}}
+                    </div>
+                </div>
+            </div>
+            <textarea id="new-post-content" placeholder="Post content"></textarea>
+            <div class="btns-group">
+                <button id="cancel-new-post" class="btn-secondart">Cancel</button>
+                <button type="submit" class="btn-primary">Post</button>
+            </div>
+        </div>
+    </div>
+</template>

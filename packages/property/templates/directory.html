@@ -1,0 +1,29 @@
+<template name="directory">
+    <div class="section">
+        <div class="header">
+            <div class="bar">
+                <div class="group title">
+                    Directory
+                </div>
+            </div>
+            <div class="input-symbol dark">
+                <span class="fa fa-search"></span>
+                <input name="search-units" type="text" placeholder="Search the directory">
+            </div>
+        </div>
+        <div class="scrollable">
+            {{#each units}}
+                <div class="unit">
+                    <div class="number">{{unit}}</div>
+                    <div class="users">
+                        {{#each users}}
+                            <div>
+                                {{firstName}} {{lastName}} <span class="fa fa-phone"></span> {{phone}}
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</template>

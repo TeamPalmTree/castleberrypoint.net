@@ -1,0 +1,32 @@
+<template name="post">
+    <div class="post">
+        <div class="main {{postPinnedClass}}">
+            <div class="info">
+                <img class="image" src="{{authorImage}}" />
+                <div class="text">
+                    <div class="title">
+                        <span class="text">{{title}}</span>
+                    </div>
+                    <div class="subtitle">
+                        @{{authorName}} &middot; {{formatDate created}}
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                {{{content}}}
+            </div>
+            {{#if currentUser.admin}}
+                <div class="pin"><i class="fa fa-thumb-tack"></i></div>
+            {{/if}}
+        </div>
+        <div class="comments">
+            {{#each comments}}
+                {{>comment}}
+            {{/each}}
+            <div class="input-symbol">
+                <input type="text" name="comment" placeholder="Type to leave a comment">
+                <i class="fa fa-comment"></i>
+            </div>
+        </div>
+    </div>
+</template>

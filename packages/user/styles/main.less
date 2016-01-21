@@ -1,0 +1,78 @@
+@import "{chaindaemons:ui}/styles/main.less";
+
+@auth-form-spacing: 10px;
+@auth-error-padding: 4px;
+@auth-padding: 20px;
+@auth-users-padding: 10px;
+@auth-image-width: 100px;
+
+.section.auth {
+
+  .scrollable {
+    background: @color-dark;
+    color: @color-light;
+  }
+
+  .wrapper-users {
+    padding: 0 @auth-users-padding @auth-users-padding @auth-users-padding;
+  }
+
+  .wrapper-auth {
+    padding-top: 4em;
+    padding-left: @auth-padding;
+    padding-right: @auth-padding;
+    text-align: center;
+
+    @media screen and (min-width: 40em) {
+      margin: 0 auto;
+      max-width: 480px;
+    }
+
+    .title-auth {
+      .font-l1;
+      .type-light;
+      color: @color-light;
+      margin-bottom: @auth-form-spacing;
+    }
+
+    .subtitle-auth {
+      color: @color-medium;
+      margin-bottom: @auth-form-spacing * 2;
+    }
+
+    .snap {
+      width: @auth-image-width;
+      height: @auth-image-width;
+      margin-top: @auth-form-spacing;
+    }
+
+    .btn-primary {
+      margin-top: @auth-form-spacing * 2;
+    }
+
+    .errors-list {
+      margin-bottom: @auth-form-spacing;
+      .error {
+        .title-caps;
+        .font-s1();
+        background: @color-error;
+        color: @color-light;
+        margin-bottom: 1px;
+        padding: @auth-error-padding;
+      }
+    }
+  }
+
+  .link-auth-alt {
+    .font-s1;
+    .position(absolute, auto, 0, 1em, 0);
+    color: @color-medium;
+    display: inline-block;
+
+    @media screen and (min-width: 40em) {
+      bottom: 0;
+      margin-top: 1rem;
+      position: relative;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+<template name="login">
+    <div class="section auth">
+        <div class="scrollable">
+            <div class="wrapper-auth">
+                <h1 class="title-auth">Log In</h1>
+
+                <form>
+
+                    {{#if errors}}
+                        <div class="errors-list">
+                            {{#each errors}}
+                                <div class="error">{{this}}</div>
+                            {{/each}}
+                        </div>
+                    {{/if}}
+
+                    {{#each fields}}
+                        <div class="input-symbol dark lined {{errorClass name}}">
+                            <span class="fa fa-{{icon}}"></span>
+                            <input name="{{name}}" type="{{fieldType}}" placeholder="{{placeholder}}">
+                        </div>
+                    {{/each}}
+
+                    <button type="submit" class="btn-primary">Sign in</button>
+
+                </form>
+
+                <a href="{{joinPath}}" class="link-auth-alt">Need an account? Join Now.</a>
+
+            </div>
+        </div>
+    </div>
+</template>

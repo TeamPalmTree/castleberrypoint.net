@@ -1,0 +1,92 @@
+@import "{chaindaemons:ui}/styles/main.less";
+
+@business-margin: 0px 10px 10px 10px;
+@business-padding: 10px;
+@business-title-font-size: 16px;
+@jumbotron-height: 250px;
+
+.section.retail {
+
+  .jumbotron {
+    position: relative;
+    width: 100%;
+    height: @jumbotron-height;
+    .flex(none);
+
+    .item {
+      .position(absolute, 0, 0, 0, 0);
+      .display(flex);
+      .justify-content(center);
+      align-items: center;
+      color: @color-light;
+      font-weight: bold;
+      text-shadow: 2px 2px 8px #000000;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      .font-l3;
+      .animation(fadein 1s);
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+  }
+
+  .scrollable {
+    background: @color-medium;
+  }
+
+}
+
+.business {
+  .display(flex);
+  .flex-direction(row);
+  .position(relative);
+  background-color: white;
+  padding: @business-padding;
+  border-bottom: solid 1px @color-medium;
+  color: black;
+
+  &:hover {
+    border-color: @color-primary;
+    background-color: @color-secondary;
+  }
+
+  .logo {
+    width: 80px;
+    height: 80px;
+    display: block;
+    margin-right: @business-padding;
+    background-size: contain;
+    background-repeat: no-repeat;
+    .flex(none);
+  }
+
+  .text {
+    .display(flex);
+    .flex-direction(column);
+    .position(relative);
+    .flex(1);
+
+    .title {
+      font-size: @business-title-font-size;
+      font-weight: bold;
+      margin-bottom: @business-padding;
+    }
+
+    .description {
+      margin-bottom: @business-padding;
+    }
+
+    .contact {
+      span {
+        white-space: nowrap;
+      }
+    }
+
+  }
+
+}

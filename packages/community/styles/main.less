@@ -1,0 +1,103 @@
+@import "{chaindaemons:ui}/styles/main.less";
+
+.document {
+
+  .display(flex);
+  .flex-wrap(wrap);
+  .flex-direction(row);
+  .position(relative);
+
+  border-radius: 5px;
+  background-color: white;
+  margin: 10px 10px 0px 10px;
+  padding: 10px;
+  border: solid 1px #828282;
+
+  .title {
+    flex: 1;
+  }
+
+  .metadata {
+    .flex(none);
+  }
+
+}
+
+.bill {
+
+  .display(flex);
+  .flex-direction(column);
+  .position(relative);
+
+  border-radius: 5px;
+  background-color: white;
+  margin: 10px 10px 0px 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  .status {
+    padding: 10px;
+    .display(flex);
+    .flex-direction(row);
+
+    .left {
+      .flex(1);
+      align-content: flex-end;
+      .display(flex);
+      justify-content: flex-end;
+      .image {
+        display: block;
+        margin-right: 5px;
+        width: 150px;
+        height: 150px;
+      }
+    }
+
+    .text {
+      .flex(1);
+      .display(flex);
+      .flex-direction(column);
+      justify-content: center;
+      margin-left: 5px;
+      font-size: 2em;
+    }
+
+  }
+
+  .last-payment {
+    padding: 10px;
+    text-align: center;
+  }
+
+}
+
+.past-bill {
+
+  .display(flex);
+  .flex-direction(row);
+  .position(relative);
+
+  border-radius: 5px;
+  background-color: white;
+  margin: 10px 10px 0px 10px;
+  padding: 10px;
+  border: solid 1px #828282;
+
+  .date {
+    .flex(1);
+  }
+
+  .type {
+    .flex(1);
+  }
+
+  .amount {
+    .flex(1);
+    text-align: right;
+  }
+
+}
+
+.content-block {
+  margin: 10px;
+}

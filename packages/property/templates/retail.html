@@ -1,0 +1,26 @@
+<template name="retail">
+    <div class="section retail">
+        <div class="jumbotron">
+            {{#each featuredBusinesses}}
+                <div class="item" style="background-image: url('/images/retail/jumbotrons/{{jumbotron}}')">
+                    {{title}}
+                </div>
+            {{/each}}
+        </div>
+        <div class="scrollable">
+            {{#each businesses}}
+                <a class="business" href="{{url}}" target="_blank">
+                    <div class="logo" style="background-image: url('/images/retail/logos/{{logo}}')"></div>
+                    <div class="text">
+                        <div class="title">{{title}}</div>
+                        <div class="description">{{description}}</div>
+                        <div class="contact">
+                            <span><i class="fa fa-building"></i> {{address}}</span>
+                            <span><i class="fa fa-phone"></i> {{phone}}</span>
+                        </div>
+                    </div>
+                </a>
+            {{/each}}
+        </div>
+    </div>
+</template>

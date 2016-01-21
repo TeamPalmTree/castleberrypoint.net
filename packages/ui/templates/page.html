@@ -1,0 +1,19 @@
+<template name="page">
+    <div id="page" class="{{menuOpen}} {{cordova}}">
+
+        <div id="menu">
+            {{>menu}}
+        </div>
+
+        <div id="menu-toggle">
+            <a href="#"><span class="fa fa-bars" title="Show menu"></span></a>
+        </div>
+
+        <div id="section-overlay"></div>
+
+        <div id="section-container">
+            {{>Template.dynamic template=section}}
+        </div>
+
+    </div>
+</template>

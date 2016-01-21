@@ -1,0 +1,28 @@
+@import "{chaindaemons:ui}/styles/main.less";
+
+@directory-margin: 10px 10px 0px 10px;
+@directory-padding: 10px;
+@directory-number-padding: 6px;
+
+.unit {
+  .display(flex);
+  .flex-direction(row);
+  .position(relative);
+  background-color: white;
+  margin: @directory-margin;
+  padding: @directory-padding;
+  border: solid 1px @color-dark;
+
+  .number {
+    flex: none;
+    padding-right: @directory-number-padding;
+    margin-right: @directory-number-padding;
+    font-weight: bold;
+    border-right: 1px solid @color-dark;
+  }
+
+  .users {
+    flex: 1;
+  }
+
+}

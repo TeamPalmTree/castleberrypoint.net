@@ -1,0 +1,24 @@
+<template name="users">
+    <div class="section">
+        <div class="header">
+            <div class="bar">
+                <div class="group title">
+                    Users
+                </div>
+            </div>
+            <div class="input-symbol dark">
+                <span class="fa fa-search"></span>
+                <input name="search-users" type="text" placeholder="Search all users">
+            </div>
+        </div>
+        <div class="scrollable">
+            {{#each users}}
+                <div class="user">
+                    <div class="username">{{username}}</div>
+                    <div class="info">{{firstName}} {{lastName}}</div>
+                    <div class="administrate {{userAdminClass}}"><i class="fa fa-star"></i></div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</template>

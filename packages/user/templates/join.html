@@ -1,0 +1,35 @@
+<template name="join">
+    <div class="section auth">
+        <div class="scrollable">
+            <div class="wrapper-auth">
+                <h1 class="title-auth">Join</h1>
+
+                <form>
+                    {{#if errors}}
+                        <div class="errors-list">
+                            {{#each errors}}
+                                <div class="error">{{this}}</div>
+                            {{/each}}
+                        </div>
+                    {{/if}}
+
+                    {{#each fields}}
+                        {{#if isFieldFile}}
+                            {{>snap}}
+                        {{else}}
+                            <div class="input-symbol dark lined {{errorClass name}}">
+                                <span class="fa fa-{{icon}}"></span>
+                                <input name="{{name}}" type="{{fieldType}}" placeholder="{{placeholder}}">
+                            </div>
+                        {{/if}}
+                    {{/each}}
+
+                    <button type="submit" class="btn-primary">Join Now</button>
+                </form>
+
+                <a href="{{loginPath}}" class="link-auth-alt">Have an account? Log in</a>
+
+            </div>
+        </div>
+    </div>
+</template>

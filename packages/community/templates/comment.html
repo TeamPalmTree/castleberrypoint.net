@@ -1,0 +1,13 @@
+<template name="comment">
+    <div class="comment">
+        <img class="image" src="{{authorImage}}" />
+        <div class="text">
+            <div class="message">
+                <span class="text">{{content}}</span>
+            </div>
+            <div class="info">
+                @{{authorName}} &middot; {{formatDate created}}
+            </div>
+        </div>
+    </div>
+</template>

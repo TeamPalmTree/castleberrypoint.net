@@ -1,0 +1,11 @@
+<template name="menu">
+    <img class="logo" src="/images/logo.png" />
+    <div class="items-list">
+        {{#each items}}
+            <div class="item {{itemActiveClass}}">
+                <span class="fa fa-{{icon}}"></span>
+                <a href="{{itemPath}}"  title="{{itemTitle}}">{{title}}</a>
+            </div>
+        {{/each}}
+    </div>
+</template>
