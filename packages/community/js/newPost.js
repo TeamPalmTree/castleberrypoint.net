@@ -35,7 +35,13 @@ Template.newPost.events({
             content: $('#new-post-content').val()
         };
 
-        CDCommunity.post(post);
+        CDCommunity.post(post, function(error) {
+            if (error) {
+                alert(error.reason);
+            } else {
+                CDCommunity.hideNewPost();
+            }
+        });
 
     }
 

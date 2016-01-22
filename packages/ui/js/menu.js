@@ -8,6 +8,10 @@ Template.menu.helpers({
         }
     },
 
+    itemUrl: function() {
+        return this.url;
+    },
+
     itemPath: function () {
         return FlowRouter.path(this.name);
     }

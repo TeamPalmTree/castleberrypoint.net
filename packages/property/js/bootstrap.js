@@ -1,6 +1,7 @@
 CDUI.menu.items.push(
     { name: 'directory', title: 'Directory', icon: 'list-alt', condition: 'authorized' },
-    { name: 'retail', title: 'Retail', icon: 'building-o', condition: 'any' }
+    { name: 'retail', title: 'Retail', icon: 'building-o', condition: 'any' },
+    { name: 'vms_portal', title: 'VMS Portal', icon: 'home', condition: 'authorized', url: 'https://homanagement.vmsclientonline.com/login.aspx' }
 );
 
 var userJoinFields = [

@@ -52,12 +52,22 @@ Template.post.events({
             content: $(event.currentTarget).val()
         };
 
-        CDCommunity.comment(post);
+        CDCommunity.comment(post, function(error) {
+            if (error) {
+                alert(error.reason);
+            } else {
+                $(event.currentTarget).val('');
+            }
+        });
 
     },
 
     'click .pin': function() {
-        CDCommunity.pin(this._id);
+        CDCommunity.pin(this._id, function (error) {
+            if (error) {
+                alert(error.reason);
+            }
+        });
     }
 
 });

@@ -12,31 +12,15 @@ CDCommunity.hideNewPost = function() {
     $('#add-new-post').show();
 }
 
-CDCommunity.post = function(post) {
+CDCommunity.post = function(post, callback) {
     var that = this;
-    Meteor.call('post', CDUser.token(), post, function(error) {
-        if (error) {
-            alert(error.reason);
-        } else {
-            that.hideNewPost();
-        }
-    });
+    Meteor.call('post', CDUser.token(), post, callback);
 };
 
-CDCommunity.comment = function(post) {
-    Meteor.call('comment', CDUser.token(), post, function(error) {
-        if (error) {
-            alert(error.reason);
-        } else {
-            $(event.currentTarget).val('');
-        }
-    });
+CDCommunity.comment = function(post, callback) {
+    Meteor.call('comment', CDUser.token(), post, callback);
 };
 
-CDCommunity.pin = function(id) {
-    Meteor.call('pin', CDUser.token(), id, function (error) {
-        if (error) {
-            alert(error.reason);
-        }
-    });
+CDCommunity.pin = function(id, callback) {
+    Meteor.call('pin', CDUser.token(), id, callback);
 };
