@@ -57,6 +57,7 @@ Template.post.events({
                 alert(error.reason);
             } else {
                 $(event.currentTarget).val('');
+                event.target.scrollIntoView(false);
             }
         });
 

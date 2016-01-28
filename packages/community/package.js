@@ -25,6 +25,7 @@ Package.onUse(function (api) {
     api.use('chaindaemons:ui');
     api.use('chaindaemons:user');
     api.use('mongo');
+    api.use('momentjs:moment');
 
     // templates
     api.addFiles([

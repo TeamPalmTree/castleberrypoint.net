@@ -28,6 +28,7 @@ Package.onUse(function (api) {
     api.use('jquery');
     api.use('tracker');
     api.use('fortawesome:fontawesome@4.5.0');
+    api.use('momentjs:moment');
     
     // templates
     api.addFiles([

@@ -1,7 +1,8 @@
 @import "{chaindaemons:ui}/styles/main.less";
 
-@post-margin: 10px 10px 0px 10px;
-@post-padding: 10px;
+@post-distance: 10px;
+@post-margin: @post-distance @post-distance 0px @post-distance;
+@post-padding: @post-distance;
 @post-font-size: 16px;
 @post-image-width: 44px;
 @post-comment-font-size: 14px;
@@ -9,6 +10,10 @@
 @post-content-editor-height: 100px;
 
 .post {
+
+  &:last-child {
+    margin-bottom: @post-distance;
+  }
 
   .main {
     .display(flex);

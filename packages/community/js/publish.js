@@ -7,7 +7,7 @@ Meteor.publish('posts', function(options) {
 
     // send over the top two comments attached to a single post
     function publishPostUser(post) {
-        var users = CDUser.users.find({_id: post.authorId});
+        var users = CDUser.users.find({_id: post.authorId}, {fields: {username: 1, image: 1}});
         userHandles[post.authorId] = users.observe({
             added: function(user) {
                 sub.added('users', user._id, user);
@@ -17,19 +17,30 @@ Meteor.publish('posts', function(options) {
 
     // send over the top two comments attached to a single post
     function publishPostComments(post) {
-        var comments = CDCommunity.posts.find({postId: post._id}, {sort: {created: -1}});
+
+        var comments = CDCommunity.posts.find({postId: post._id}, {
+            fields: {
+                content: 1,
+                postId: 1,
+                authorId: 1,
+                created: 1
+            },
+            sort: {created: -1}
+        });
+
         commentHandles[post._id] = comments.observe({
             added: function(comment) {
                 publishPostUser(comment);
                 sub.added('posts', comment._id, comment);
             }
         });
+
     }
 
     // get authors given username
     var authorIds = CDUser.users.find({
         username: { $regex: ".*" + options.search + ".*", '$options' : 'i'}
-    }).map(function(user) {
+    }, {fields: {_id: 1}}).map(function(user) {
         return user._id;
     });
 
