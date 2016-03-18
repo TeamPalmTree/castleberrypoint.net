@@ -8,8 +8,12 @@ Template.newPost.helpers({
     },
 
     authorImage: function() {
-        return CDUser.image();
+        return CDUser.getUserImageSrc();
     },
+
+    images: function() {
+        return CDCommunity.images.find({ uploaderId: CDUser.id(), postId: { $exists: false }}, {sort: {order: 1}});
+    }
 
 });
 
@@ -43,6 +47,41 @@ Template.newPost.events({
             }
         });
 
+    },
+
+    'click #cancel-new-post': CDCommunity.cancel,
+
+    'click #upload-image': function() {
+        CDCommunity.uploadImage(function(error) {
+            if (error) {
+                alert(error.reason);
+            }
+        });
     }
 
 });
+
+Template.newPost.onRendered(function() {
+
+    this.find('#new-post-images')._uihooks = {
+        insertElement: function(node, next) {
+            $(node)
+                .hide()
+                .insertBefore(next)
+                .fadeIn();
+        },
+        removeElement: function(node) {
+            $(node).fadeOut(function() {
+                $(this).remove();
+            });
+        }
+    };
+
+});
+
+Template.newPost.onCreated(function() {
+    var self = this;
+    this.autorun(function() {
+        self.subscribe('newImages', CDUser.token());
+    });
+})

@@ -13,8 +13,14 @@
                 </div>
             </div>
             <textarea id="new-post-content" placeholder="Post content"></textarea>
+            <div id="new-post-images" class="post-images">
+                {{#each images}}
+                    {{> postImage editable=true image=this}}
+                {{/each}}
+            </div>
             <div class="btns-group">
                 <button id="cancel-new-post" class="btn-secondart">Cancel</button>
+                <button id="upload-image" class="btn-primary">Add Image</button>
                 <button type="submit" class="btn-primary">Post</button>
             </div>
         </div>

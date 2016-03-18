@@ -1,0 +1,81 @@
+@import "{chaindaemons:ui}/styles/main.less";
+
+@image-distance: 10px;
+@image-margin: @image-distance @image-distance 0px @image-distance;
+@image-padding: @image-distance;
+@image-size: 180px;
+@image-border-size: 1px;
+@image-img-size: @image-size - (@image-border-size * 2) - (@image-padding * 2);
+
+.post-image {
+  margin: @image-distance;
+  padding: @image-padding;
+  border: solid @image-border-size @color-dark;
+  position: relative;
+  width: @image-size;
+  height: @image-size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    max-width: @image-img-size;
+    max-height: @image-img-size;
+  }
+
+  .controls {
+    position: absolute;
+    right: @image-padding;
+    top: @image-padding;
+    display: flex;
+    flex-direction: row;
+
+    .button {
+      border: solid 1px @color-dark;
+      padding: 2px 8px 2px 8px;
+      margin-left: 4px;
+      background-color: @color-light;
+
+      &:hover {
+        background-color: @color-primary;
+      }
+
+    }
+
+  }
+
+}
+
+#post-image-fullscreen {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 0;
+  z-index: 100000;
+  opacity: 0;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .close {
+    position: absolute;
+    right: @image-padding;
+    top: @image-padding;
+    border: solid 1px @color-dark;
+    padding: 2px 8px 2px 8px;
+    background-color: @color-light;
+
+    &:hover {
+      background-color: @color-primary;
+    }
+
+  }
+
+}

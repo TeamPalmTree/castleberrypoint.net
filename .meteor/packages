@@ -19,3 +19,4 @@ chaindaemons:ui
 chaindaemons:user
 chaindaemons:community
 chaindaemons:property
+chaindaemons:events

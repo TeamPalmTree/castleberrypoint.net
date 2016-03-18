@@ -4,6 +4,7 @@ Meteor.publish('posts', function(options) {
     var commentHandles = [];
     var postHandles = [];
     var userHandles = [];
+    var imageHandles = [];
 
     // send over the top two comments attached to a single post
     function publishPostUser(post) {
@@ -11,6 +12,16 @@ Meteor.publish('posts', function(options) {
         userHandles[post.authorId] = users.observe({
             added: function(user) {
                 sub.added('users', user._id, user);
+            }
+        });
+    }
+
+    // send over the top two comments attached to a single post
+    function publishPostImages(post) {
+        var images = CDCommunity.images.find({postId: post._id});
+        imageHandles[post._id] = images.observe({
+            added: function(image) {
+                sub.added('images', image._id, image);
             }
         });
     }
@@ -68,6 +79,7 @@ Meteor.publish('posts', function(options) {
     postHandles = posts.observe({
         added: function(post) {
             publishPostUser(post);
+            publishPostImages(post);
             publishPostComments(post);
             sub.added('posts', post._id, post);
         },
@@ -88,9 +100,16 @@ Meteor.publish('posts', function(options) {
         commentHandles.forEach(function(comment) {
             comment.stop();
         });
+        imageHandles.forEach(function(image) {
+            image.stop();
+        });
         userHandles.forEach(function(user) {
             user.stop();
         });
     });
 
+});
+
+Meteor.publish('newImages', function(token) {
+    return CDCommunity.images.find({ uploaderId: CDUser.id(token), postId: { $exists: false }}, {sort: {order: 1}});
 });

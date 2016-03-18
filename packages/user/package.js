@@ -29,6 +29,7 @@ Package.onUse(function (api) {
     api.use('tracker');
     api.use('underscore');
     api.use('fortawesome:fontawesome@4.5.0');
+    api.use('ccorcos:clientside-image-manipulation');
     api.use('momentjs:moment');
     api.use('chaindaemons:ui');
     api.use('mongo');

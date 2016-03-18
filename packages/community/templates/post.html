@@ -15,6 +15,11 @@
             <div class="content">
                 {{{content}}}
             </div>
+            <div class="post-images">
+                {{#each images}}
+                    {{>postImage editable=false image=this}}
+                {{/each}}
+            </div>
             {{#if currentUser.admin}}
                 <div class="pin"><i class="fa fa-thumb-tack"></i></div>
             {{/if}}

@@ -1,4 +1,5 @@
 CDCommunity.post = function(token, post) {
+
     var userId = CDUser.id(token);
     if (!userId)
         throw new Meteor.Error(401, "You need to login to post new stories");
@@ -9,7 +10,15 @@ CDCommunity.post = function(token, post) {
     post.created = Date.now();
     post.pinned = false;
     var postId = CDCommunity.posts.insert(post);
+
+    // associate images with post
+    CDCommunity.images.update({
+        uploaderId: CDUser.id(token),
+        postId: { $exists: false }
+    }, {$set: {postId: postId}}, {multi: 1});
+
     return postId;
+
 };
 
 CDCommunity.comment = function(token, post) {
@@ -32,4 +41,153 @@ CDCommunity.pin = function(token, id) {
     if (!post)
         throw new Meteor.Error(401, "Post not found");
     CDCommunity.posts.update(id, {$set: {pinned: !post.pinned}});
+};
+
+CDCommunity.uploadImage = function(token, image) {
+
+    var userId = CDUser.id(token);
+    if (!userId)
+        throw new Meteor.Error(401, "You need to login to upload images");
+
+    image.order = 0;
+    var lastImage;
+    // find max sort
+    if (image.postId) {
+        lastImage = CDCommunity.images.findOne({
+                postId: image.postId
+            },
+            {sort: {order: -1}, fields: {order: 1}}
+        );
+    } else {
+        lastImage = CDCommunity.images.findOne({
+                uploaderId: CDUser.id(token),
+                postId: { $exists: false }
+            },
+            {sort: {order: -1}, fields: {order: 1}}
+        );
+    }
+
+    if (lastImage) {
+        image.order = lastImage.order + 1;
+    }
+
+    image.uploaderId = userId;
+    image.uploaded = Date.now();
+    var imageId = CDCommunity.images.insert(image);
+    return imageId;
+
+};
+
+CDCommunity.deleteImage = function(token, id) {
+
+    var userId = CDUser.id(token);
+    if (!userId)
+        throw new Meteor.Error(401, "You need to login to delete images");
+
+    // find the image
+    var image = CDCommunity.images.findOne(id, {fields: {order: 1, postId: 1}});
+    // decrement successive image orders
+    if (image.postId) {
+        CDCommunity.images.update({
+            postId: image.postId,
+            order: { $gt: image.order }
+        }, {$inc: {order: -1}}, {multi: 1});
+    } else {
+        CDCommunity.images.update({
+            uploaderId: CDUser.id(token),
+            postId: { $exists: false },
+            order: { $gt: image.order }
+        }, {$inc: {order: -1}}, {multi: 1});
+    }
+
+    // delete the image
+    CDCommunity.images.remove(id);
+
+};
+
+CDCommunity.upImage = function(token, id) {
+
+    var userId = CDUser.id(token);
+    if (!userId)
+        throw new Meteor.Error(401, "You need to login to up images");
+
+    // get the image
+    var image = CDCommunity.images.findOne(id, {fields: {order: 1, postId: 1}});
+
+    var nextImage;
+    // get the image above us
+    if (image.postId) {
+        nextImage = CDCommunity.images.findOne({
+            postId: image.postId,
+            order: image.order + 1
+        },
+            {fields: {order: 1}}
+        );
+    } else {
+        nextImage = CDCommunity.images.findOne({
+            uploaderId: CDUser.id(token),
+            postId: { $exists: false },
+            order: image.order + 1
+        },
+            {fields: {order: 1}}
+        );
+    }
+
+    if (!nextImage) {
+        return;
+    }
+
+    // swap orders
+    CDCommunity.images.update(image._id, {$inc: {order: 1}});
+    CDCommunity.images.update(nextImage._id, {$inc: {order: -1}});
+
+};
+
+CDCommunity.downImage = function(token, id) {
+
+    var userId = CDUser.id(token);
+    if (!userId)
+        throw new Meteor.Error(401, "You need to login to up images");
+
+    // get the image
+    var image = CDCommunity.images.findOne(id, {fields: {order: 1, postId: 1}});
+    // if we are at zero, done
+    if (image.order == 0) {
+        return;
+    }
+
+    var previousImage;
+    // get the image below us
+    if (image.postId) {
+        previousImage = CDCommunity.images.findOne({
+                postId: image.postId,
+                order: image.order - 1
+            },
+            {fields: {order: 1}}
+        );
+    } else {
+        previousImage = CDCommunity.images.findOne({
+                uploaderId: CDUser.id(token),
+                postId: { $exists: false },
+                order: image.order - 1
+            },
+            {fields: {order: 1}}
+        );
+    }
+
+    if (!previousImage) {
+        return;
+    }
+
+    // swap orders
+    CDCommunity.images.update(image._id, {$inc: {order: -1}});
+    CDCommunity.images.update(previousImage._id, {$inc: {order: 1}});
+
+};
+
+CDCommunity.cancel = function(token) {
+    var userId = CDUser.id(token);
+    if (!userId)
+        throw new Meteor.Error(401, "You need to login to upload images");
+    CDCommunity.images.remove({ uploaderId: userId, postId: { $exists: false }});
 };

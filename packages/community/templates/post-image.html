@@ -1,0 +1,12 @@
+<template name="postImage">
+    <div class="post-image">
+        <img src="{{image.data}}" />
+        {{#if editable}}
+            <div class="controls">
+                <div class="button delete"><i class="fa fa-trash"></i></div>
+                <div class="button down"><i class="fa fa-arrow-left"></i></div>
+                <div class="button up"><i class="fa fa-arrow-right"></i></div>
+            </div>
+        {{/if}}
+    </div>
+</template>

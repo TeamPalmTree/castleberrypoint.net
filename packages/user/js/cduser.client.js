@@ -95,7 +95,7 @@ CDUser.process = function(form, fields) {
 
 CDUser.login = function(user, fail) {
     var that = this;
-    Meteor.call('login', user, function(error, result) {
+    Meteor.call('CDUser.login', user, function(error, result) {
         if (!error) {
             that.id(result.id);
             that.token(result.token);
@@ -108,7 +108,7 @@ CDUser.login = function(user, fail) {
 
 CDUser.join = function(user, fail) {
     var that = this;
-    Meteor.call('join', user, function(error, result) {
+    Meteor.call('CDUser.join', user, function(error, result) {
         if (!error) {
             that.id(result.id);
             that.token(result.token);
@@ -121,7 +121,7 @@ CDUser.join = function(user, fail) {
 
 CDUser.modify = function(user, fail) {
     var that = this;
-    Meteor.call('modify', that.token(), user, function(error) {
+    Meteor.call('CDUser.modify', that.token(), user, function(error) {
         if (!error) {
             FlowRouter.go(CDUser.forms.modify.completePath);
         } else {
@@ -138,7 +138,7 @@ CDUser.logout = function() {
 };
 
 CDUser.administrate = function(id) {
-    Meteor.call('administrate', this.token(), id, function (error) {
+    Meteor.call('CDUser.administrate', this.token(), id, function (error) {
         if (error) {
             alert(error.reason);
         }
@@ -151,34 +151,30 @@ CDUser.upload = function() {
     input.attr("type", "file");
     $(input).on('change', function(event) {
         var file = event.target.files[0]; //assuming 1 file only
-        if (!file) return;
-        var reader = new FileReader(); //create a reader according to HTML5 File API
-        reader.onload = function(event){
-            var buffer = new Uint8Array(reader.result) // convert to binary
-            Session.set('user.image', buffer);
-        }
-        reader.readAsArrayBuffer(file); //read the file as arraybuffer
+        if (!file) { return; }
+        processImage(file, 100, 100, function(data) {
+            Session.set('user.image', data);
+        });
     });
+
     input.trigger('click');
 
 };
 
-CDUser.snap = function() {
+CDUser.getUserSnapImageSrc = function() {
     var image = Session.get('user.image');
     if (!image) {
-        return CDUser.image();
+        return '/images/anon.jpg';
     }
-    var base64 = btoa(String.fromCharCode.apply(null, image));
-    return 'data:image/png;base64,' + base64;
+    return image;
 };
 
-CDUser.image = function(id) {
+CDUser.getUserImageSrc = function(id) {
     var user = CDUser.user(id);
     if (!user || !user.image) {
         return '/images/anon.jpg';
     }
-    var base64 = btoa(String.fromCharCode.apply(null, user.image));
-    return 'data:image/png;base64,' + base64;
+    return user.image;
 };
 
 Template.registerHelper('currentUser', function () {

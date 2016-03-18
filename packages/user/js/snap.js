@@ -1,6 +1,6 @@
 Template.snap.helpers({
 
-    snap: CDUser.snap
+    snap: CDUser.getUserSnapImageSrc
 
 });
 

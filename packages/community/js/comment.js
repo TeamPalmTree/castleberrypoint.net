@@ -5,7 +5,7 @@ Template.comment.helpers({
     },
 
     authorImage: function() {
-        return CDUser.image(this.authorId);
+        return CDUser.getUserImageSrc(this.authorId);
     }
 
 });

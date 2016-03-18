@@ -1,5 +1,5 @@
 Package.describe({
-    name: 'chaindaemons:community',
+    name: 'chaindaemons:events',
     version: '0.0.1',
     // Brief, one-line summary of the package.
     summary: '',
@@ -23,64 +23,32 @@ Package.onUse(function (api) {
     api.use('rzymek:fullcalendar');
     api.use('momentjs:moment');
     api.use('chaindaemons:ui');
-    api.use('chaindaemons:user');
     api.use('mongo');
     api.use('momentjs:moment');
-    api.use('ccorcos:clientside-image-manipulation');
 
     // templates
     api.addFiles([
-        'templates/community.html',
-        'templates/post.html',
-        'templates/new-post.html',
-        'templates/comment.html',
-        'templates/account.html',
-        'templates/documents.html',
-        'templates/post-image.html'
+        'templates/events.html',
     ], 'client');
 
     // styles
     api.addFiles([
-        'styles/main.less',
-        'styles/post.less',
-        'styles/post-image.less'
+        'styles/events.less',
     ], 'client');
 
     // js
     api.addFiles([
         'js/bootstrap.js',
-        'js/cdcommunity.global.js',
-        'js/collections.js',
-        'js/queries.js'
     ]);
-
-    // server js
-    api.addFiles([
-        'js/cdcommunity.server.js',
-        'js/publish.js',
-        'js/methods.js'
-    ], 'server');
 
     // client js
     api.addFiles([
-        'js/cdcommunity.client.js',
-        'js/router.js',
-        'js/community.js',
-        'js/post.js',
-        'js/documents.js',
-        'js/new-post.js',
-        'js/post-image.js',
-        'js/comment.js'
+        'js/events.js',
     ], 'client');
-
-    api.export([
-        'CDCommunity'
-    ], ['client', 'server']);
 
 });
 
 Package.onTest(function (api) {
     api.use('ecmascript');
     api.use('tinytest');
-    api.use('chaindaemons:blog');
 });

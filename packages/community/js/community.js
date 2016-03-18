@@ -15,9 +15,7 @@ Template.community.helpers({
 
 Template.community.events({
 
-    'click #add-new-post': CDCommunity.showNewPost,
-
-    'click #cancel-new-post': CDCommunity.hideNewPost
+    'click #add-new-post': CDCommunity.showNewPost
 
 });
 

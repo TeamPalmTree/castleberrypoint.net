@@ -11,11 +11,15 @@ Template.post.helpers({
     },
 
     authorImage: function() {
-        return CDUser.image(this.authorId);
+        return CDUser.getUserImageSrc(this.authorId);
     },
 
     comments: function() {
         return CDCommunity.posts.find({ postId: this._id });
+    },
+
+    images: function() {
+        return CDCommunity.images.find({ postId: this._id }, {sort: {order: 1}});
     }
 
 });
