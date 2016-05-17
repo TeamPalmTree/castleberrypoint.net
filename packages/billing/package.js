@@ -1,5 +1,5 @@
 Package.describe({
-    name: 'chaindaemons:community',
+    name: 'chaindaemons:billing',
     version: '0.0.1',
     // Brief, one-line summary of the package.
     summary: '',
@@ -30,49 +30,13 @@ Package.onUse(function (api) {
 
     // templates
     api.addFiles([
-        'templates/community.html',
-        'templates/post.html',
-        'templates/new-post.html',
-        'templates/comment.html',
-        'templates/post-image.html'
+        'templates/account.html'
     ], 'client');
 
     // styles
     api.addFiles([
-        'styles/post.less',
-        'styles/post-image.less'
+        'styles/bill.less'
     ], 'client');
-
-    // js
-    api.addFiles([
-        'js/bootstrap.js',
-        'js/cdcommunity.global.js',
-        'js/collections.js',
-        'js/queries.js'
-    ]);
-
-    // server js
-    api.addFiles([
-        'js/cdcommunity.server.js',
-        'js/publish.js',
-        'js/methods.js'
-    ], 'server');
-
-    // client js
-    api.addFiles([
-        'js/cdcommunity.client.js',
-        'js/router.js',
-        'js/community.js',
-        'js/post.js',
-        'js/documents.js',
-        'js/new-post.js',
-        'js/post-image.js',
-        'js/comment.js'
-    ], 'client');
-
-    api.export([
-        'CDCommunity'
-    ], ['client', 'server']);
 
 });
 

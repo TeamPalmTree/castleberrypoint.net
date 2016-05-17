@@ -1,15 +1,15 @@
 @import "{chaindaemons:ui}/styles/main.less";
 
-@users-margin: 10px 10px 0px 10px;
-@users-padding: 10px;
+@user-margin: 10px 10px 0px 10px;
+@user-padding: 10px;
 
 .user {
   .display(flex);
   .flex-direction(column);
   .position(relative);
   background-color: white;
-  margin: @users-margin;
-  padding: @users-padding;
+  margin: @user-margin;
+  padding: @user-padding;
   border: solid 1px @color-dark;
 
   .username {
@@ -18,8 +18,8 @@
 
   .administrate {
     position: absolute;
-    right: @users-padding;
-    top: @users-padding;
+    right: @user-padding;
+    top: @user-padding;
     border: solid 1px @color-dark;
     padding: 2px 6px 2px 6px;
 
@@ -33,5 +33,4 @@
     }
 
   }
-
 }

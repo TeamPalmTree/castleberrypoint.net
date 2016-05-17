@@ -9,7 +9,6 @@ blaze-html-templates
 session
 mongo
 mobile-experience
-standard-minifiers
 insecure
 less
 jquery
@@ -20,3 +19,5 @@ chaindaemons:user
 chaindaemons:community
 chaindaemons:property
 chaindaemons:events
+standard-minifier-css
+standard-minifier-js

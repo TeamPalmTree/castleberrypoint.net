@@ -45,7 +45,7 @@ Package.onUse(function (api) {
 
     // styles
     api.addFiles([
-        'styles/main.less',
+        'styles/auth.less',
         'styles/user.less'
     ], 'client');
 

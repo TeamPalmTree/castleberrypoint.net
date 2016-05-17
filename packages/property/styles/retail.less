@@ -1,16 +1,16 @@
 @import "{chaindaemons:ui}/styles/main.less";
 
-@business-margin: 0px 10px 10px 10px;
-@business-padding: 10px;
-@business-title-font-size: 16px;
-@jumbotron-height: 250px;
+@property-retail-business-margin: 0px 10px 10px 10px;
+@property-retail-business-padding: 10px;
+@property-retail-business-title-font-size: 16px;
+@property-retail-jumbotron-height: 250px;
 
 .section.retail {
 
   .jumbotron {
     position: relative;
     width: 100%;
-    height: @jumbotron-height;
+    height: @property-retail-jumbotron-height;
     .flex(none);
 
     .item {
@@ -32,61 +32,57 @@
       from { opacity: 0; }
       to   { opacity: 1; }
     }
-
   }
 
   .scrollable {
     background: @color-medium;
   }
 
-}
-
-.business {
-  .display(flex);
-  .flex-direction(row);
-  .position(relative);
-  background-color: white;
-  padding: @business-padding;
-  border-bottom: solid 1px @color-medium;
-  color: black;
-
-  &:hover {
-    border-color: @color-primary;
-    background-color: @color-secondary;
-  }
-
-  .logo {
-    width: 80px;
-    height: 80px;
-    display: block;
-    margin-right: @business-padding;
-    background-size: contain;
-    background-repeat: no-repeat;
-    .flex(none);
-  }
-
-  .text {
+  .business {
     .display(flex);
-    .flex-direction(column);
+    .flex-direction(row);
     .position(relative);
-    .flex(1);
+    background-color: white;
+    padding: @property-retail-business-padding;
+    border-bottom: solid 1px @color-medium;
+    color: black;
 
-    .title {
-      font-size: @business-title-font-size;
-      font-weight: bold;
-      margin-bottom: @business-padding;
+    &:hover {
+      border-color: @color-primary;
+      background-color: @color-secondary;
     }
 
-    .description {
-      margin-bottom: @business-padding;
+    .logo {
+      width: 80px;
+      height: 80px;
+      display: block;
+      margin-right: @property-retail-business-padding;
+      background-size: contain;
+      background-repeat: no-repeat;
+      .flex(none);
     }
 
-    .contact {
-      span {
-        white-space: nowrap;
+    .text {
+      .display(flex);
+      .flex-direction(column);
+      .position(relative);
+      .flex(1);
+
+      .title {
+        font-size: @property-retail-business-title-font-size;
+        font-weight: bold;
+        margin-bottom: @property-retail-business-padding;
+      }
+
+      .description {
+        margin-bottom: @property-retail-business-padding;
+      }
+
+      .contact {
+        span {
+          white-space: nowrap;
+        }
       }
     }
-
   }
-
 }

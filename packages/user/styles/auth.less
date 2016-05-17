@@ -1,10 +1,10 @@
 @import "{chaindaemons:ui}/styles/main.less";
 
-@auth-form-spacing: 10px;
-@auth-error-padding: 4px;
-@auth-padding: 20px;
-@auth-users-padding: 10px;
-@auth-image-width: 100px;
+@user-auth-form-spacing: 10px;
+@user-auth-error-padding: 4px;
+@user-auth-padding: 20px;
+@user-auth-users-padding: 10px;
+@user-auth-image-width: 100px;
 
 .section.auth {
 
@@ -13,14 +13,10 @@
     color: @color-light;
   }
 
-  .wrapper-users {
-    padding: 0 @auth-users-padding @auth-users-padding @auth-users-padding;
-  }
-
   .wrapper-auth {
     padding-top: 4em;
-    padding-left: @auth-padding;
-    padding-right: @auth-padding;
+    padding-left: @user-auth-padding;
+    padding-right: @user-auth-padding;
     text-align: center;
 
     @media screen and (min-width: 40em) {
@@ -32,33 +28,33 @@
       .font-l1;
       .type-light;
       color: @color-light;
-      margin-bottom: @auth-form-spacing;
+      margin-bottom: @user-auth-form-spacing;
     }
 
     .subtitle-auth {
       color: @color-medium;
-      margin-bottom: @auth-form-spacing * 2;
+      margin-bottom: @user-auth-form-spacing * 2;
     }
 
     .snap {
-      width: @auth-image-width;
-      height: @auth-image-width;
-      margin-top: @auth-form-spacing;
+      width: @user-auth-image-width;
+      height: @user-auth-image-width;
+      margin-top: @user-auth-form-spacing;
     }
 
     .btn-primary {
-      margin-top: @auth-form-spacing * 2;
+      margin-top: @user-auth-form-spacing * 2;
     }
 
     .errors-list {
-      margin-bottom: @auth-form-spacing;
+      margin-bottom: @user-auth-form-spacing;
       .error {
         .title-caps;
         .font-s1();
         background: @color-error;
         color: @color-light;
         margin-bottom: 1px;
-        padding: @auth-error-padding;
+        padding: @user-auth-error-padding;
       }
     }
   }
