@@ -47,7 +47,6 @@ Package.onUse(function (api) {
     api.addFiles([
         'js/bootstrap.js',
         'js/cdcommunity.global.js',
-        'js/collections.js',
         'js/queries.js'
     ]);
 
@@ -64,7 +63,6 @@ Package.onUse(function (api) {
         'js/router.js',
         'js/community.js',
         'js/post.js',
-        'js/documents.js',
         'js/new-post.js',
         'js/post-image.js',
         'js/comment.js'

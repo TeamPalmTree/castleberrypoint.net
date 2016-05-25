@@ -3,11 +3,16 @@
     <div class="items-list">
         {{#each items}}
             <div class="item {{itemActiveClass}}">
-                <span class="fa fa-{{icon}}"></span>
-                {{#if itemUrl}}
-                    <a href="#" title="{{itemTitle}}" onclick="window.open('{{itemUrl}}', '_blank')">{{title}}</a>
-                {{else}}
-                    <a href="{{itemPath}}"  title="{{itemTitle}}">{{title}}</a>
+                <div class="content">
+                    <span class="fa fa-{{icon}}"></span>
+                    {{#if itemUrl}}
+                        <a href="#" title="{{itemTitle}}" onclick="window.open('{{itemUrl}}', '_blank')">{{title}}</a>
+                    {{else}}
+                        <a href="{{itemPath}}" title="{{itemTitle}}">{{title}}</a>
+                    {{/if}}
+                </div>
+                {{#if notificationCount}}
+                    <div class="bubble">{{notificationCount}}</div>
                 {{/if}}
             </div>
         {{/each}}

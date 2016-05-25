@@ -81,7 +81,7 @@ Package.onUse(function (api) {
 
     // isomorphic
     api.addFiles([
-        'js/cdui.js'
+        'js/cdui.global.js'
     ]);
 
     // client js

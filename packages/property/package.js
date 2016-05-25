@@ -43,11 +43,6 @@ Package.onUse(function (api) {
         'js/bootstrap.js',
     ]);
 
-    // server js
-    api.addFiles([
-        'js/publish.js'
-    ], 'server');
-
     // client js
     api.addFiles([
         'js/router.js',

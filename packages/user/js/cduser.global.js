@@ -1,5 +1,7 @@
 CDUser = {};
 
+CDUser.users = new Mongo.Collection('users');
+
 var usernameField = { 'name': 'username', placeholder: 'Username', icon: 'user', required: true, order: 1 };
 var emailField = { 'name': 'email', placeholder: 'Email', icon: 'envelope-o', required: true, order: 2 };
 var passwordField = { 'name': 'password', placeholder: 'Password', icon: 'key', type: 'password', required: true, order: 3 };
@@ -50,8 +52,6 @@ CDUser.forms.fieldSorter = function(a, b) {
         return 0;
     }
 }
-
-CDUser.users = new Mongo.Collection('users');
 
 CDUser.getMongoFields = function() {
     var mongoFields = {admin:1};

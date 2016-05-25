@@ -1,5 +1,5 @@
 Package.describe({
-    name: 'chaindaemons:user',
+    name: 'chaindaemons:notifications',
     version: '0.0.1',
     // Brief, one-line summary of the package.
     summary: '',
@@ -33,48 +33,6 @@ Package.onUse(function (api) {
     api.use('momentjs:moment');
     api.use('chaindaemons:ui');
     api.use('mongo');
-
-    // templates
-    api.addFiles([
-        'templates/join.html',
-        'templates/login.html',
-        'templates/user.html',
-        'templates/users.html',
-        'templates/snap.html'
-    ], 'client');
-
-    // styles
-    api.addFiles([
-        'styles/auth.less',
-        'styles/user.less'
-    ], 'client');
-
-    // isomorphic
-    api.addFiles([
-        'js/cduser.global.js'
-    ]);
-
-    // server js
-    api.addFiles([
-        'js/cduser.server.js', ,
-        'js/methods.js'
-    ], 'server');
-
-    // client js
-    api.addFiles([
-        'js/cduser.client.js',
-        'js/router.js',
-        'js/join.js',
-        'js/login.js',
-        'js/user.js',
-        'js/users.js',
-        'js/bootstrap.js',
-        'js/snap.js'
-    ], 'client');
-
-    api.export([
-        'CDUser'
-    ], ['client', 'server']);
 
 });
 
