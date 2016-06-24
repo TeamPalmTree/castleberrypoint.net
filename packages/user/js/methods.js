@@ -20,4 +20,4 @@ Meteor.methods({
         CDUser.upload(buffer);
     }
 
-})
+});

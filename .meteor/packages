@@ -19,5 +19,6 @@ chaindaemons:user
 chaindaemons:community
 chaindaemons:property
 chaindaemons:events
+chaindaemons:notifications
 standard-minifier-css
 standard-minifier-js

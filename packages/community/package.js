@@ -24,6 +24,7 @@ Package.onUse(function (api) {
     api.use('momentjs:moment');
     api.use('chaindaemons:ui');
     api.use('chaindaemons:user');
+    api.use('chaindaemons:notifications');
     api.use('mongo');
     api.use('momentjs:moment');
     api.use('ccorcos:clientside-image-manipulation');

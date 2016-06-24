@@ -15,6 +15,7 @@ callback-hook@1.0.8
 ccorcos:clientside-image-manipulation@1.0.4
 chaindaemons:community@0.0.1
 chaindaemons:events@0.0.1
+chaindaemons:notifications@0.0.1
 chaindaemons:property@0.0.1
 chaindaemons:ui@0.0.1
 chaindaemons:user@0.0.1

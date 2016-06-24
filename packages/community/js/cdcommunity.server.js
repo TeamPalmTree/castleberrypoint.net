@@ -17,6 +17,15 @@ CDCommunity.post = function(token, post) {
         postId: { $exists: false }
     }, {$set: {postId: postId}}, {multi: 1});
 
+    // get all users
+    var recipientIds = CDUser.users.find({}, {_id:1}).map(function(user) { return user._id; });
+    // notify users
+    CDNotifications.notify(token, {
+        recipientIds: recipientIds,
+        message: post.title,
+        menuItemName: 'community'
+    });
+
     return postId;
 
 };

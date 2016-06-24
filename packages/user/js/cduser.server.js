@@ -151,9 +151,3 @@ CDUser.administrate = function(token, id) {
     CDUser.users.update(id,{$set:{admin: !user.admin}});
 
 };
-
-Meteor.startup(function() {
-    Meteor.publish('users', function () {
-        return CDUser.users.find({}, { fields: CDUser.getMongoFields() });
-    });
-});

@@ -34,6 +34,36 @@ Package.onUse(function (api) {
     api.use('chaindaemons:ui');
     api.use('mongo');
 
+    // templates
+    api.addFiles([
+        'templates/notifications.html'
+    ], 'client');
+
+    // js
+    api.addFiles([
+        'js/cdnotifications.global.js'
+    ]);
+
+    // server js
+    api.addFiles([
+        'js/cdnotifications.server.js',
+        'js/methods.js',
+        'js/publish.js'
+    ], 'server');
+
+    // client js
+    api.addFiles([
+        'js/startup.client.js',
+        'js/router.js',
+        'js/notifications.js',
+        'js/cdnotifications.client.js',
+        'js/bootstrap.js'
+    ], 'client');
+
+    api.export([
+        'CDNotifications'
+    ], ['client', 'server']);
+
 });
 
 Package.onTest(function (api) {

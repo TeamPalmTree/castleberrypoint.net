@@ -1,9 +1,11 @@
 Template.menu.helpers({
 
-    items: CDUI.menu.filterItems,
+    items: function() {
+        return CDUI.menu.filterItems();
+    },
 
     itemActiveClass: function () {
-        if (FlowRouter.getRouteName() === this.name) {
+        if (CDUI.currentMenuItemName() === this.name) {
             return 'active';
         }
     },

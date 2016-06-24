@@ -56,8 +56,9 @@ Package.onUse(function (api) {
 
     // server js
     api.addFiles([
-        'js/cduser.server.js', ,
-        'js/methods.js'
+        'js/cduser.server.js',
+        'js/methods.js',
+        'js/publish.js'
     ], 'server');
 
     // client js
@@ -69,7 +70,8 @@ Package.onUse(function (api) {
         'js/user.js',
         'js/users.js',
         'js/bootstrap.js',
-        'js/snap.js'
+        'js/snap.js',
+        'js/startup.client.js'
     ], 'client');
 
     api.export([
