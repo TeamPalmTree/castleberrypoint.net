@@ -49,10 +49,11 @@ Template.community.onCreated(function() {
     var self = this;
     this.autorun(function() {
         var postsSearch = Session.get('posts-search');
+        var token = CDUser.token();
         if (postsSearch && postsSearch != '') {
-            self.subscribe('posts', {search: postsSearch, limit: 20, sort: {created: -1}});
+            self.subscribe('posts', token, {search: postsSearch, limit: 20, sort: {created: -1}});
         } else {
-            self.subscribe('posts', {limit: 20, sort: {pinned: -1, created: -1}});
+            self.subscribe('posts', token, {limit: 20, sort: {pinned: -1, created: -1}});
         }
     });
 });

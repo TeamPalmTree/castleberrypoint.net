@@ -1,17 +1,36 @@
-Meteor.publish('posts', function(options) {
+Meteor.publish('posts', function(token, options) {
 
-    var sub = this;
-    var commentHandles = [];
-    var postHandles = [];
+    var subscription = this;
+
+    var postHandle;
     var userHandles = [];
+    var reactionHandles = [];
     var imageHandles = [];
+    var commentHandles = [];
 
     // send over the top two comments attached to a single post
     function publishPostUser(post) {
         var users = CDUser.users.find({_id: post.authorId}, {fields: {username: 1, image: 1}});
-        userHandles[post.authorId] = users.observe({
+        userHandles[post._id] = users.observe({
             added: function(user) {
-                sub.added('users', user._id, user);
+                subscription.added('users', user._id, user);
+            }
+        });
+    }
+
+    // send over the top two comments attached to a single post
+    function publishPostReactions(post) {
+        var userId = CDUser.id(token);
+        var reactions = CDUser.reactions.find({$and: [{postId: post._id}, {userId: userId}]}, {fields: {postId: 1, userId: 1, emotion: 1}});
+        reactionHandles[post._id] = reactions.observe({
+            added: function(reaction) {
+                subscription.added('reactions', reaction._id, reaction);
+            },
+            removed: function(reaction) {
+                subscription.removed('reactions', reaction._id);
+            },
+            changed: function(newPost, oldReaction) {
+                subscription.changed('reactions', oldReaction._id, newReaction);
             }
         });
     }
@@ -21,14 +40,13 @@ Meteor.publish('posts', function(options) {
         var images = CDCommunity.images.find({postId: post._id});
         imageHandles[post._id] = images.observe({
             added: function(image) {
-                sub.added('images', image._id, image);
+                subscription.added('images', image._id, image);
             }
         });
     }
 
     // send over the top two comments attached to a single post
     function publishPostComments(post) {
-
         var comments = CDCommunity.posts.find({postId: post._id}, {
             fields: {
                 content: 1,
@@ -38,11 +56,10 @@ Meteor.publish('posts', function(options) {
             },
             sort: {created: -1}
         });
-
         commentHandles[post._id] = comments.observe({
             added: function(comment) {
                 publishPostUser(comment);
-                sub.added('posts', comment._id, comment);
+                subscription.added('posts', comment._id, comment);
             }
         });
 
@@ -76,35 +93,43 @@ Meteor.publish('posts', function(options) {
             pinned: 1
         }
     });
-    postHandles = posts.observe({
+
+    postHandle = posts.observe({
         added: function(post) {
             publishPostUser(post);
+            publishPostReactions(post);
             publishPostImages(post);
             publishPostComments(post);
-            sub.added('posts', post._id, post);
+            subscription.added('posts', post._id, post);
         },
         removed: function(post) {
-            commentHandles[post._id] && commentHandles[post._id].stop();
-            sub.removed('posts', post._id);
+            userHandles[post._id].stop();
+            reactionHandles[post._id].stop();
+            imageHandles[post._id].stop();
+            commentHandles[post._id].stop();
+            subscription.removed('posts', post._id);
         },
         changed: function(newPost, oldPost) {
-            sub.changed('posts', oldPost._id, newPost);
+            subscription.changed('posts', oldPost._id, newPost);
         }
     });
 
-    sub.ready();
+    subscription.ready();
 
     // make sure we clean everything up
-    sub.onStop(function() {
-        postHandles.stop();
-        commentHandles.forEach(function(comment) {
-            comment.stop();
+    subscription.onStop(function() {
+        postHandle.stop();
+        userHandles.forEach(function(userHandle) {
+            userHandle.stop();
         });
-        imageHandles.forEach(function(image) {
-            image.stop();
+        reactionHandles.forEach(function(reactionHandle) {
+            reactionHandle.stop();
         });
-        userHandles.forEach(function(user) {
-            user.stop();
+        imageHandles.forEach(function(imageHandle) {
+            imageHandle.stop();
+        });
+        commentHandles.forEach(function(commentHandle) {
+            commentHandle.stop();
         });
     });
 

@@ -24,6 +24,10 @@ CDCommunity.pin = function(id, callback) {
     Meteor.call('CDCommunity.pin', CDUser.token(), id, callback);
 };
 
+CDCommunity.like = function(id, callback) {
+    Meteor.call('CDCommunity.like', CDUser.token(), id, callback);
+};
+
 CDCommunity.uploadImage = function(callback) {
     var input = $(document.createElement('input'));
     input.attr("type", "file");

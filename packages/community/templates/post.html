@@ -20,9 +20,12 @@
                     {{>postImage editable=false image=this}}
                 {{/each}}
             </div>
-            {{#if currentUser.admin}}
-                <div class="pin"><i class="fa fa-thumb-tack"></i></div>
-            {{/if}}
+            <div class="buttons">
+              {{#if currentUser.admin}}
+                  <div class="pin"><i class="fa fa-thumb-tack"></i></div>
+              {{/if}}
+              <div class="like {{currentUserLikedClass}}"><i class="fa fa-thumbs-up"></i></div>
+            </div>
         </div>
         <div class="comments">
             {{#each comments}}

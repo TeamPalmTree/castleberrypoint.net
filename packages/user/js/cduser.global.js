@@ -1,15 +1,16 @@
 CDUser = {};
 
 CDUser.users = new Mongo.Collection('users');
+CDUser.reactions = new Mongo.Collection('reactions');
 
-var usernameField = { 'name': 'username', placeholder: 'Username', icon: 'user', required: true, order: 1 };
-var emailField = { 'name': 'email', placeholder: 'Email', icon: 'envelope-o', required: true, order: 2 };
-var passwordField = { 'name': 'password', placeholder: 'Password', icon: 'key', type: 'password', required: true, order: 3 };
-var confirmPasswordField = { 'name': 'confirmPassword', placeholder: 'Confirm Password', icon: 'key', type: 'password', required: true, same: 'password', order: 4 };
-var currentPasswordField = { 'name': 'currentPassword', placeholder: 'Current Password', icon: 'key', type: 'password', required: true, order: 5 };
-var newPasswordField = { 'name': 'newPassword', placeholder: 'New Password', icon: 'key', type: 'password', order: 6 };
-var confirmNewPasswordField = { 'name': 'confirmNewPassword', placeholder: 'Confirm New Password', icon: 'key', type: 'password', required: true, same: 'newPassword', order: 7 };
-var imageField = { 'name': 'image', placeholder: 'Upload your profile image', icon: 'picture-o', type: 'file', order: 999 };
+var usernameField = { name: 'username', placeholder: 'Username', icon: 'user', required: true, order: 1 };
+var emailField = { name: 'email', placeholder: 'Email', icon: 'envelope-o', required: true, order: 2 };
+var passwordField = { name: 'password', placeholder: 'Password', icon: 'key', type: 'password', required: true, order: 3 };
+var confirmPasswordField = { name: 'confirmPassword', placeholder: 'Confirm Password', icon: 'key', type: 'password', required: true, same: 'password', order: 4 };
+var currentPasswordField = { name: 'currentPassword', placeholder: 'Current Password', icon: 'key', type: 'password', required: true, order: 5 };
+var newPasswordField = { name: 'newPassword', placeholder: 'New Password', icon: 'key', type: 'password', order: 6 };
+var confirmNewPasswordField = { name: 'confirmNewPassword', placeholder: 'Confirm New Password', icon: 'key', type: 'password', required: true, same: 'newPassword', order: 7 };
+var imageField = { name: 'image', placeholder: 'Upload your profile image', icon: 'picture-o', type: 'file', order: 999 };
 
 // forms
 CDUser.forms = {

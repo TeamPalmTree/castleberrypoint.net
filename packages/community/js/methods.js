@@ -12,6 +12,10 @@ Meteor.methods({
         CDCommunity.pin(token, id);
     },
 
+    'CDCommunity.like': function(token, id) {
+        CDCommunity.like(token, id);
+    },
+
     'CDCommunity.cancel': function(token) {
         return CDCommunity.cancel(token);
     },

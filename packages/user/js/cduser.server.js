@@ -1,6 +1,8 @@
 var crypto = Npm.require('crypto');
 
 CDUser.hash = function(value) {
+    if (!value)
+      return;
     var hash = crypto.createHash('sha256');
     hash.update(value);
     return hash.digest('base64');
@@ -11,15 +13,18 @@ CDUser.random = function() {
 };
 
 CDUser.user = function(token) {
-    return this.users.findOne({'token.hashed':this.hash(token)});
+    return this.users.findOne({'token.hashed': this.hash(token)});
 };
 
 CDUser.id = function(token) {
-    return this.user(token)._id;
+    var user = this.user(token);
+    if (!user) {
+        throw new Meteor.Error(400, "User credentials invalid");
+    }
+    return user._id;
 };
 
 CDUser.login = function(user) {
-
     // first attempt to find the user
     var user = CDUser.users.findOne({$and: [
         {$or: [
@@ -31,9 +36,7 @@ CDUser.login = function(user) {
     if (!user) {
         throw new Meteor.Error(400, "User credentials invalid");
     }
-
     return this.tokenize(user);
-
 };
 
 CDUser.join = function(user) {
@@ -73,27 +76,27 @@ CDUser.check = function(field, value) {
 CDUser.modify = function(token, updatedUser) {
 
     // first get the logged in user
-    var currentUser = this.user(token);
-    if (!currentUser) {
+    var user = this.user(token);
+    if (!user) {
         throw new Meteor.Error(400, "User token invalid");
     }
 
     // verify password
-    currentUser = CDUser.users.findOne({$and: [
-        {username: currentUser.username},
+    user = CDUser.users.findOne({$and: [
+        {username: user.username},
         {hashedPassword: this.hash(updatedUser.currentPassword)}
     ]});
-    if (!currentUser) {
+    if (!user) {
         throw new Meteor.Error(400, "Current password invalid");
     }
 
-    if (updatedUser.username !== currentUser.username) {
+    if (updatedUser.username !== user.username) {
         if (!this.check('username', updatedUser.username)) {
             throw new Meteor.Error(400, "Username already taken");
         }
     }
 
-    if (updatedUser.email !== currentUser.email) {
+    if (updatedUser.email !== user.email) {
         if (!this.check('email', updatedUser.email)) {
             throw new Meteor.Error(400, "Email already taken");
         }
@@ -106,7 +109,7 @@ CDUser.modify = function(token, updatedUser) {
 
     // delete fields we don't need
     updatedUser = this.cleanse(updatedUser, this.forms.modify.fields);
-    this.users.update(currentUser._id, {$set: updatedUser});
+    this.users.update(user._id, {$set: updatedUser});
 
 };
 
@@ -133,13 +136,13 @@ CDUser.cleanse = function(user, fields) {
 CDUser.administrate = function(token, id) {
 
     // first get the logged in user
-    var currentUser = this.user(token);
-    if (!currentUser) {
+    var user = this.user(token);
+    if (!user) {
         throw new Meteor.Error(400, "User token invalid");
     }
 
     // now verify we are an admin
-    if (!currentUser.admin) {
+    if (!user.admin) {
         throw new Meteor.Error(400, "Only administrators can administrate");
     }
 
@@ -148,6 +151,34 @@ CDUser.administrate = function(token, id) {
         throw new Meteor.Error(400, "User not found to administrate");
     }
 
-    CDUser.users.update(id,{$set:{admin: !user.admin}});
+    CDUser.users.update(id,{$set: {admin: !user.admin}});
+
+};
+
+CDUser.react = function(token, type, id, emotion) {
+
+    // first get the logged in user
+    var user = this.user(token);
+    if (!user) {
+        throw new Meteor.Error(400, "User token invalid");
+    }
+
+    var objectComparison = {};
+    objectComparison[type + "Id"] = id;
+    var reaction = CDUser.reactions.findOne({$and: [{ userId: user._id }, objectComparison]});
+
+    if (reaction) {
+        if (reaction.emotion == emotion) {
+            CDUser.reactions.remove(reaction._id);
+            return -1;
+        }
+        CDUser.reactions.update(reaction._id, {$set: {emotion: emotion}});
+        return 0;
+    }
+
+    reaction = { userId: user._id, emotion: emotion };
+    reaction[type + "Id"] = id;
+    CDUser.reactions.insert(reaction);
+    return 1;
 
 };

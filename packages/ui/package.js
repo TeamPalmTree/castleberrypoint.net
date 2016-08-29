@@ -72,6 +72,7 @@ Package.onUse(function (api) {
         'styles/text.import.less',
         'styles/typography.import.less',
         'styles/variables.import.less',
+        'styles/animations.import.less',
     ], 'client');
 
     // exported style

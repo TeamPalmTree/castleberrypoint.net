@@ -103,15 +103,35 @@
       margin-top: @post-padding;
     }
 
-    .pin {
+    .buttons {
       position: absolute;
       right: @post-padding;
       top: @post-padding;
-      border: solid 1px @color-dark;
-      padding: 2px 8px 2px 8px;
+      display: flex;
+      flex-direction: row;
 
-      &:hover {
-        background-color: @color-primary;
+      .pin {
+        border: solid 1px @color-dark;
+        padding: 2px 8px 2px 8px;
+        margin-right: @post-padding;
+
+        &:hover {
+          background-color: @color-primary;
+        }
+      }
+
+      .like {
+        border: solid 1px @color-dark;
+        padding: 2px 8px 2px 8px;
+
+        &.liked {
+          background-color: @color-dark;
+          color: @color-light;
+        }
+
+        &:hover {
+          background-color: @color-primary;
+        }
       }
     }
 
@@ -119,7 +139,7 @@
       background-color: @color-dark;
       color: white;
 
-      .pin {
+      .buttons .pin {
         background-color: @color-dark;
         color: @color-light;
       }

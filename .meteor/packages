@@ -4,21 +4,21 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-base
-blaze-html-templates
-session
-mongo
-mobile-experience
-insecure
-less
-jquery
-tracker
-check
+meteor-base@1.0.4
+blaze-html-templates@1.0.4
+session@1.1.6
+mongo@1.1.10
+mobile-experience@1.0.4
+insecure@1.0.7
+less@2.7.4
+jquery@1.11.9
+tracker@1.1.0
+check@1.2.3
 chaindaemons:ui
 chaindaemons:user
 chaindaemons:community
 chaindaemons:property
 chaindaemons:events
 chaindaemons:notifications
-standard-minifier-css
-standard-minifier-js
+standard-minifier-css@1.1.8
+standard-minifier-js@1.1.8

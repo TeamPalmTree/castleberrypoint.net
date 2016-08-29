@@ -1,5 +1,5 @@
 CDUI.homePath = function() {};
 
-CDUI.currentMenuItemName = function() {
+CDUI.routeName = function() {
     return FlowRouter.getRouteName();
 }

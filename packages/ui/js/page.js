@@ -17,6 +17,16 @@ Template.page.helpers({
         return Session.get('menuOpen') && 'menu-open';
     },
 
+    notificationsCount: function() {
+        var notificationsCount = 0;
+        CDUI.menu.filterItems().forEach(function(item) {
+            if (item.hasOwnProperty('notificationsCount')) {
+                notificationsCount += item.notificationsCount;
+            }
+        });
+        return notificationsCount;
+    },
+
     cordova: function () {
         return Meteor.isCordova && 'cordova';
     }

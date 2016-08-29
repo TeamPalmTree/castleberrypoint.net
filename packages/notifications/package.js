@@ -33,6 +33,11 @@ Package.onUse(function (api) {
     api.use('momentjs:moment');
     api.use('chaindaemons:ui');
     api.use('mongo');
+    api.use('meteorhacks:ssr@2.2.0');
+
+    Npm.depends({
+        nodemailer: "2.4.2"
+    });
 
     // templates
     api.addFiles([
@@ -50,6 +55,11 @@ Package.onUse(function (api) {
         'js/methods.js',
         'js/publish.js'
     ], 'server');
+
+    // server assets
+    api.addFiles([
+        'templates/notification.html'
+    ], 'server', {isAsset: true});
 
     // client js
     api.addFiles([

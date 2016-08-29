@@ -6,6 +6,13 @@ Template.post.helpers({
        }
     },
 
+    currentUserLikedClass: function() {
+      var like = CDUser.reactions.findOne({ $and: [ {postId: this._id}, {userId: CDUser.id()}, {emotion: 'like'} ]});
+      if (like) {
+         return 'liked';
+      }
+    },
+
     authorName: function() {
         return CDUser.users.findOne(this.authorId).username;
     },
@@ -69,6 +76,14 @@ Template.post.events({
 
     'click .pin': function() {
         CDCommunity.pin(this._id, function (error) {
+            if (error) {
+                alert(error.reason);
+            }
+        });
+    },
+
+    'click .like': function() {
+        CDCommunity.like(this._id, function (error) {
             if (error) {
                 alert(error.reason);
             }

@@ -1,3 +1,3 @@
-CDNotifications.clear = function(menuItemName) {
-    Meteor.call('CDNotifications.clear', CDUser.token(), menuItemName);
+CDNotifications.clear = function(routeName) {
+    Meteor.call('CDNotifications.clear', CDUser.token(), routeName);
 };

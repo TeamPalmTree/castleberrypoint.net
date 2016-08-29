@@ -1,7 +1,7 @@
 Meteor.methods({
 
-    'CDNotifications.clear': function(token, menuItemName) {
-        CDNotifications.clear(token, menuItemName);
+    'CDNotifications.clear': function(token, routeName) {
+        CDNotifications.clear(token, routeName);
     }
 
 });

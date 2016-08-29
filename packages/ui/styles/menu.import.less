@@ -20,15 +20,17 @@
       position: relative;
       display: flex;
       flex-direction: row;
-      padding: @menu-item-padding;
+      box-shadow: rgba(255, 255, 255, .15) 0 1px 0 0;
 
       .content {
         position: relative;
         display: flex;
         flex-direction: row;
         align-items: center;
-        box-shadow: rgba(255, 255, 255, .15) 0 1px 0 0;
         color: @menu-item-color;
+        margin-top: @menu-item-padding;
+        margin-bottom: @menu-item-padding;
+        margin-left: @menu-item-padding;
         opacity: 0.5;
         flex: 1;
 
@@ -69,12 +71,16 @@
       .bubble {
         display: block;
         background-color: red;
-        border-radius: 5px;
-        padding-left: 2px;
-        padding-right: 2px;
         color: white;
         font-weight: bold;
-        font-size: 10px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1px;
+        width: 40px;
+        animation: fadein 1s;
+        animation-timing-function: easeOutCubic;
       }
     }
   }

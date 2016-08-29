@@ -5,7 +5,7 @@ Template.menu.helpers({
     },
 
     itemActiveClass: function () {
-        if (CDUI.currentMenuItemName() === this.name) {
+        if (CDUI.routeName() === this.routeName) {
             return 'active';
         }
     },
@@ -15,7 +15,7 @@ Template.menu.helpers({
     },
 
     itemPath: function () {
-        return FlowRouter.path(this.name);
+        return FlowRouter.path(this.routeName);
     }
 
 });
