@@ -4,11 +4,17 @@ CDNotifications.emailTransporter = 'smtps://agroleau%40teampalmtree.com:ralkxqpt
 CDNotifications.fromEmail = '"Castleberry Point" <notifications@castleberrypoint.net>';
 
 CDNotifications.notify = function(token, notification) {
+
     var userId = CDUser.id(token);
     if (!userId)
         throw new Meteor.Error(401, "You need to login to notify users");
+    if (!notification.header)
+        throw new Meteor.Error(422, 'Notification title is required');
     if (!notification.message)
-        throw new Meteor.Error(422, 'A message is required');
+        throw new Meteor.Error(422, 'Notification message is required');
+    if (!notification.recipientIds)
+        throw new Meteor.Error(422, 'Notification receipients required');
+
     notification.notifierId = userId;
     notification.created = Date.now();
     notification.receipts = {};
@@ -19,39 +25,19 @@ CDNotifications.notify = function(token, notification) {
         };
     });
 
-    // get all email addresses for the list of recipient ids
-    var toEmails = CDUser.users.find({_id: {$in: notification.recipientIds}}, {email:1}).map(function(user) { return user.email; });
-    // create reusable transporter object using the default SMTP transport
-    var emailTransporter = nodemailer.createTransport(this.emailTransporter);
+    var notificationId = CDNotifications.notifications.insert(notification);
 
-    // create email data
-    var notificationData = {
-        message: notification.message,
-        notifier: CDUser.user(userId),
-        created: notification.created,
-        URL: FlowRouter.url(notification.routeName)
-    }
-    // render email html
-    SSR.compileTemplate('notification', Assets.getText('templates/notification.html'));
-    var emailHTML = SSR.render("notification", notificationData);
-    // setup e-mail data with unicode symbols
-    var mailOptions = {
-        from: this.fromEmail,
-        to: toEmails,
-        subject: notification.message,
-        text: notification.message,
-        html: emailHTML
-    };
-    // send mail with defined transport object
-    emailTransporter.sendMail(mailOptions, function(error){
-        if (error){
-            throw new Meteor.Error(422, "Failed to email out notification");
+    sendNotificationEmails(notification, Meteor.bindEnvironment((info) => {
+            if (info) {
+                CDNotifications.notifications.update(notificationId, {$set: {messageId: info.messageId}, $unset: {recipientIds: ""}});
+            }
+        }), (error) => {
+            throw new Meteor.Error(500, error);
         }
-    });
+    );
 
-    // remove the recipient ids node
-    delete notification.recipientIds;
-    CDNotifications.notifications.insert(notification);
+    return notificationId;
+
 };
 
 CDNotifications.clear = function(token, routeName) {
@@ -67,3 +53,51 @@ CDNotifications.clear = function(token, routeName) {
     $set["receipts." + userId + ".received"] = true;
     CDNotifications.notifications.update(params, {$set: $set}, {multi: true});
 };
+
+function sendNotificationEmails(notification, success, failed) {
+
+    if (notification.recipientIds.length === 0) {
+        success();
+    }
+
+    // get all email addresses for the list of recipient ids
+    var toEmails = CDUser.users.find({_id: {$in: notification.recipientIds}}, {email : 1}).map(function(user) {
+        return user.email;
+    });
+
+    // create reusable transporter object using the default SMTP transport
+    var emailTransporter = nodemailer.createTransport(CDNotifications.emailTransporter);
+
+    // create email data
+    var notificationData = {
+        header: notification.header,
+        message: notification.message,
+        notifier: CDUser.user(notification.notifierId),
+        created: notification.created,
+        URL: FlowRouter.url(notification.routeName)
+    }
+    // render email html
+    SSR.compileTemplate('notification', Assets.getText('templates/notification.html'));
+    var emailHTML = SSR.render("notification", notificationData);
+    // setup e-mail data with unicode symbols
+    var mailOptions = {
+        from: CDNotifications.fromEmail,
+        to: toEmails,
+        subject: notification.header,
+        text: notification.message,
+        html: emailHTML
+    };
+
+    // add reply to message if
+    if (_.has(notification, 'replyToMessageId')) {
+        mailOptions['inReplyTo'] = notification.replyToMessageId;
+    }
+
+    // send mail with defined transport object
+    emailTransporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            failed("Failed to email out notification");
+        }
+        success(info);
+    });
+}

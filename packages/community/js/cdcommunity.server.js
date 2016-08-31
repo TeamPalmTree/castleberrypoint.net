@@ -5,10 +5,14 @@ CDCommunity.post = function(token, post) {
         throw new Meteor.Error(401, "You need to login to post new stories");
     if (!post.title)
         throw new Meteor.Error(422, 'Please fill in a headline');
+
     // populate post object
     post.authorId = userId;
     post.created = Date.now();
     post.pinned = false;
+
+    notifyRelevantPostUsers(token, post);
+
     var postId = CDCommunity.posts.insert(post);
 
     // associate images with post
@@ -16,20 +20,6 @@ CDCommunity.post = function(token, post) {
         uploaderId: CDUser.id(token),
         postId: { $exists: false }
     }, {$set: {postId: postId}}, {multi: 1});
-
-    // get all users
-    var recipientIds = CDUser.users.find({}, {_id:1}).map(function(user) { return user._id; });
-    // remove our own id
-    var recipientUserIdIndex = recipientIds.indexOf(userId);
-    recipientIds.splice(recipientUserIdIndex, 1);
-    // notify all other users
-    CDNotifications.notify(token, {
-        recipientIds: recipientIds,
-        message: post.title,
-        routeName: 'community'
-    });
-
-    return postId;
 
 };
 
@@ -48,19 +38,7 @@ CDCommunity.comment = function(token, post) {
     post.created = Date.now();
     var postId = CDCommunity.posts.insert(post);
 
-    // get the the parent post's user
-    // get the user ids of everyone who has commented so far
-    // get the user ids of everyone who has liked this post
-    var recipientIds = CDUser.users.find({}, {_id:1}).map(function(user) { return user._id; });
-    // remove our own id
-    var recipientUserIdIndex = recipientIds.indexOf(userId);
-    recipientIds.splice(recipientUserIdIndex, 1);
-    // notify all other users
-    CDNotifications.notify(token, {
-        recipientIds: recipientIds,
-        message: post.title,
-        routeName: 'community'
-    });
+    notifyRelevantPostUsers(token, post);
 
     return postId;
 };
@@ -225,3 +203,69 @@ CDCommunity.cancel = function(token) {
         throw new Meteor.Error(401, "You need to login to upload images");
     CDCommunity.images.remove({ uploaderId: userId, postId: { $exists: false }});
 };
+
+function notifyRelevantPostUsers(token, post, success) {
+
+    var notification = {
+        recipientIds: [],
+        message: post.content,
+        routeName: 'community'
+    };
+
+    if (!post.postId) {
+
+        // set the notification header to the post title
+        notification.header = post.title;
+
+        // for a new post, notify everyone except us
+        var allReceipientIds = CDUser.users.find({
+            _id: {$ne: post.authorId}
+        }, {_id : 1}).map(function(user) {
+            return user._id;
+        });
+
+        notification.recipientIds = _.union(notification.recipientIds, allReceipientIds);
+
+    } else {
+
+        // put the parent post title in the notification
+        var parentPost = CDCommunity.posts.findOne({_id: post.postId}, {title: 1});
+        notification.header = 'Re: ' + parentPost.title;
+
+        // set the reply to message id to the parent post's notification message id
+        var parentNotification = CDNotifications.notifications.findOne({_id: parentPost.notificationId}, {messageId: 1});
+        notification.replyToMessageId = parentNotification.messageId;
+
+        // add the parent author if not us
+        if (parentNotification.authorId !== post.authorId) {
+            notification.recipientIds.push(parentNotification.authorId);
+        }
+
+        // for an old post, get all user ids that commented
+        // on this post that aren't us
+        var commentedRecipientIds = CDCommunity.posts.find({
+            postId: post.postId,
+            authorId: {$ne: post.authorId}
+        }, {authorId : 1}).map(function(post) {
+            return post.authorId;
+        });
+
+        notification.recipientIds = _.union(notification.recipientIds, commentedRecipientIds);
+
+        // additionally, get all user ids that liked this post
+        // that are not us
+        var reactingRecipientIds = CDUser.reactions.find({
+            postId: post.postId,
+            userId: {$ne: post.authorId}
+        }, {userId : 1}).map(function(reaction) {
+            return reaction.userId;
+        });
+
+        notification.recipientIds = _.union(notification.recipientIds, reactingRecipientIds);
+
+    }
+
+    // set the initial notification id on our post
+    post.notificationId = CDNotifications.notify(token, notification);
+
+}
