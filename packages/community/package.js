@@ -41,7 +41,8 @@ Package.onUse(function (api) {
     // styles
     api.addFiles([
         'styles/post.less',
-        'styles/post-image.less'
+        'styles/post-image.less',
+        'node_modules/quill/dist/quill.snow.css'
     ], 'client');
 
     // js

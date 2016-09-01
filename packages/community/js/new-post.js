@@ -1,3 +1,5 @@
+import Quill from 'quill';
+
 Template.newPost.helpers({
 
     username: function() {
@@ -19,24 +21,11 @@ Template.newPost.helpers({
 
 Template.newPost.events({
 
-    'keyup #new-post-content': function(event) {
-        var target = event.currentTarget;
-        var lineHeight = parseFloat($(target).css('line-height'));
-        var minHeight = parseFloat($(target).css('min-height'));
-        var lines = $(target).val().split(/\r*\n/);
-        var height = lines.length * lineHeight + lineHeight;
-        if (height > minHeight) {
-            target.style.height = height + 'px';
-        } else {
-            target.style.height = minHeight + 'px';
-        }
-    },
-
     "click button[type='submit']": function() {
 
         var post = {
             title: $('#new-post').find('input[name=title]').val(),
-            content: $('#new-post-content').val()
+            content: $('#new-post-content').find('.ql-editor').html()
         };
 
         CDCommunity.post(post, function(error) {
@@ -62,6 +51,11 @@ Template.newPost.events({
 });
 
 Template.newPost.onRendered(function() {
+
+    new Quill('#new-post-content', {
+        theme: 'snow',
+        placeholder: 'Post content',
+    });
 
     this.find('#new-post-images')._uihooks = {
         insertElement: function(node, next) {

@@ -84,12 +84,17 @@
       font-size: @post-font-size;
     }
 
-    textarea {
-      margin-top: @post-padding;
-      font-size: @post-font-size;
+    .ql-toolbar {
+        margin-top: @post-padding;
+    }
+
+    #new-post-content {
       min-height: @post-content-editor-height;
-      overflow: hidden;
-      resize: none;
+
+      p {
+          margin: 0px;
+      }
+
     }
 
     .post-images {
