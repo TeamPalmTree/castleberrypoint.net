@@ -237,8 +237,8 @@ function notifyRelevantPostUsers(token, post, success) {
         notification.replyToMessageId = parentNotification.messageId;
 
         // add the parent author if not us
-        if (parentNotification.authorId !== post.authorId) {
-            notification.recipientIds.push(parentNotification.authorId);
+        if (parentPost.authorId !== post.authorId) {
+            notification.recipientIds.push(parentPost.authorId);
         }
 
         // for an old post, get all user ids that commented

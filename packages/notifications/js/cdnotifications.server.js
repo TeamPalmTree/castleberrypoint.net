@@ -58,12 +58,22 @@ function sendNotificationEmails(notification, success, failed) {
 
     if (notification.recipientIds.length === 0) {
         success();
+        return;
     }
 
     // get all email addresses for the list of recipient ids
-    var toEmails = CDUser.users.find({_id: {$in: notification.recipientIds}}, {email : 1}).map(function(user) {
-        return user.email;
+    var users = CDUser.users.find({_id: {$in: notification.recipientIds}}, {email : 1});
+    var toEmails = [];
+    users.forEach(function(user) {
+        if (validateEmail(user.email)) {
+            toEmails.push(user.email);
+        }
     });
+
+    if (toEmails.length === 0) {
+        success();
+        return;
+    }
 
     // create reusable transporter object using the default SMTP transport
     var emailTransporter = nodemailer.createTransport(CDNotifications.emailTransporter);
@@ -96,8 +106,13 @@ function sendNotificationEmails(notification, success, failed) {
     // send mail with defined transport object
     emailTransporter.sendMail(mailOptions, function(error, info) {
         if (error) {
-            failed("Failed to email out notification");
+            failed(error);
         }
         success(info);
     });
+}
+
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
 }

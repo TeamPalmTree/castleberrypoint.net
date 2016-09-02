@@ -1,4 +1,4 @@
-Meteor.publish('posts', function(token, options) {
+Meteor.publish('posts', function(options) {
 
     var subscription = this;
 
@@ -20,8 +20,7 @@ Meteor.publish('posts', function(token, options) {
 
     // send over the top two comments attached to a single post
     function publishPostReactions(post) {
-        var userId = CDUser.id(token);
-        var reactions = CDUser.reactions.find({$and: [{postId: post._id}, {userId: userId}]}, {fields: {postId: 1, userId: 1, emotion: 1}});
+        var reactions = CDUser.reactions.find({postId: post._id}, {fields: {postId: 1, userId: 1, emotion: 1}});
         reactionHandles[post._id] = reactions.observe({
             added: function(reaction) {
                 subscription.added('reactions', reaction._id, reaction);
